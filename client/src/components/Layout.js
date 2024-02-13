@@ -10,6 +10,7 @@ function Layout({ children }) {
   const navigate = useNavigate();
   const handleLogout = () => {
     navigate("/login");
+    localStorage.removeItem("token");
   };
   return (
     <div className="main  p-5">
