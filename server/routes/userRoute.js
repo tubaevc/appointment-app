@@ -58,34 +58,7 @@ router.post("/login", async (req, res) => {
       .send({ message: "error logging in", success: false, error: error });
   }
 });
-
-///////
-
-// router.post("get-user-by-id", authMiddleware, async (req, res) => {
-//   try {
-//     const user = await User.findOne({ _id: req.body.userId }).populate(
-//       "bookings"
-//     );
-//     if (!user) {
-//       return res
-//         .status(400)
-//         .send({ message: "user does not exist", success: false });
-//     } else {
-//       res.status(200).send({
-//         success: true,
-//         data: {
-//           name: user.name,
-//           email: user.email,
-//         },
-//       });
-//     }
-//   } catch (error) {
-//     res
-//       .status(500)
-//       .send({ message: "error getting user info", success: false, error });
-//   }
-// });
-
+//userId'ye göre appointments alma
 // userId yi alamadım
 router.get("/get-user-appointments", authMiddleware, async (req, res) => {
   try {

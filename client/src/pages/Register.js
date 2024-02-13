@@ -8,7 +8,6 @@ import { Toaster } from "react-hot-toast";
 function Register() {
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    // console.log(values);
     try {
       const response = await axios.post("/api/user/register", values);
       if (response.data.success) {

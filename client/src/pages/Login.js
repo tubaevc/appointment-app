@@ -22,7 +22,7 @@ function Login() {
       }
     } catch (error) {
       console.log(error.response.data);
-      toast.error("something went wrong");
+      toast.error("Giriş yapılamadı");
     }
   };
   return (

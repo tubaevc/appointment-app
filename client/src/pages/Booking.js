@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
-
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 function Booking() {
   const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
@@ -44,6 +45,24 @@ function Booking() {
     const doctorId = e.target.value;
     setFormData({ ...formData, doctorId });
   };
+  function generateTimeOptions() {
+    const options = [];
+    for (let hour = 8; hour <= 17; hour++) {
+      for (let minute = 0; minute <= 40; minute += 20) {
+        const formattedHour = hour.toString().padStart(2, "0");
+        const formattedMinute = minute.toString().padStart(2, "0");
+        options.push(
+          <option
+            key={`${formattedHour}:${formattedMinute}`}
+            value={`${formattedHour}:${formattedMinute}`}
+          >
+            {`${formattedHour}:${formattedMinute}`}
+          </option>
+        );
+      }
+    }
+    return options;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,8 +71,10 @@ function Booking() {
       console.log(formData);
       console.log(typeof userId);
       const response = await axios.post("/api/booking/book", formData);
+
       if (response.data.success) {
         //  console.log(response.data.data);
+        toast.success(response.data.message);
       } else {
         console.log(response.data.message);
       }
@@ -62,6 +83,7 @@ function Booking() {
       setIsSubmitted(true);
     } catch (error) {
       console.error("Error creating appointment:", error);
+      toast.error("Başka bir saat  seçiniz");
     }
   };
   useEffect(() => {
@@ -70,6 +92,7 @@ function Booking() {
 
   return (
     <Layout>
+      <Toaster position="top-center" reverseOrder={false} />;
       <form
         className="justify-center text-center mt-10"
         onSubmit={handleSubmit}
@@ -127,14 +150,17 @@ function Booking() {
           <label className="font-bold mr-4" htmlFor="time">
             Time:
           </label>
-          <input
-            type="time"
+          <select
             id="time"
             value={formData.time}
             onChange={(e) => setFormData({ ...formData, time: e.target.value })}
             disabled={!formData.doctorId}
-          />
+          >
+            <option value="">Select a time</option>
+            {generateTimeOptions()}
+          </select>
         </div>
+
         <button
           type="submit"
           className="primary-button bg-[#211C6A] text-white h-[40px] w-[200px] mt-3 mb-3"
