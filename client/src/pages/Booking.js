@@ -92,9 +92,9 @@ function Booking() {
 
   return (
     <Layout>
-      <Toaster position="top-center" reverseOrder={false} />;
+      <Toaster position="top-center" reverseOrder={false} />
       <form
-        className="justify-center text-center mt-10"
+        className="justify-center text-center mt-32"
         onSubmit={handleSubmit}
       >
         <div>
@@ -114,7 +114,7 @@ function Booking() {
             ))}
           </select>
         </div>
-        <div className="mt-2">
+        <div className="mt-4">
           <label className="font-bold mr-4" htmlFor="doctor">
             Doctor:
           </label>
@@ -134,7 +134,7 @@ function Booking() {
           </select>
         </div>
 
-        <div className="mt-2">
+        <div className="mt-4">
           <label className="font-bold mr-4" htmlFor="date">
             Date:
           </label>
@@ -146,7 +146,7 @@ function Booking() {
             disabled={!formData.doctorId}
           />
         </div>
-        <div className="mt-2">
+        <div className="mt-4">
           <label className="font-bold mr-4" htmlFor="time">
             Time:
           </label>
@@ -163,7 +163,7 @@ function Booking() {
 
         <button
           type="submit"
-          className="primary-button bg-[#211C6A] text-white h-[40px] w-[200px] mt-3 mb-3"
+          className="primary-button bg-[#211C6A] rounded-lg text-white h-[40px] w-[200px] mt-3 mb-3"
         >
           Randevu Al
         </button>

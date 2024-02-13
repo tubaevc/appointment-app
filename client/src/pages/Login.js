@@ -44,7 +44,7 @@ function Login() {
           >
             Login
           </Button>
-          <Link to="./register" className="text-black underline mt-2 ">
+          <Link to="/register" className="text-black underline mt-2 ">
             Register
           </Link>
         </Form>
