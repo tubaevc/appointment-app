@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import { useState } from "react";
 function Login() {
   const navigate = useNavigate();
   const onFinish = async (values) => {
@@ -24,7 +25,14 @@ function Login() {
       console.log(error.response.data);
       toast.error("Giriş yapılamadı");
     }
+    if (!validateEmail(values.email)) {
+      setEmailError("Geçersiz email adresi");
+    } else {
+      setEmailError("");
+    }
   };
+  const [emailError, setEmailError] = useState("");
+  const [form] = Form.useForm();
   return (
     <div className="auth flex justify-center text-center items-center p-2 h-screen">
       <Toaster position="top-center" reverseOrder={false} />
@@ -32,9 +40,19 @@ function Login() {
       <div className="auth-form card w-[400px]">
         <h1 className="mt-4 text-xl font-bold">Login</h1>
         <Form layout="vertical" className="m-4" onFinish={onFinish}>
-          <Form.Item label="Email" name="email">
+          <Form.Item
+            rules={[
+              {
+                required: true,
+                message: "Lütfen email adresinizi girin!",
+              },
+            ]}
+            label="Email"
+            name="email"
+          >
             <Input placeholder="Email" />
           </Form.Item>
+          {emailError && <div style={{ color: "red" }}>{emailError}</div>}
           <Form.Item label="Password" name="password">
             <Input placeholder="Password" />
           </Form.Item>
@@ -52,5 +70,8 @@ function Login() {
     </div>
   );
 }
-
+function validateEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
 export default Login;

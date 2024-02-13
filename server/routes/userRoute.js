@@ -62,7 +62,10 @@ router.post("/login", async (req, res) => {
 // userId yi alamadım
 router.get("/get-user-appointments", authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).populate("bookings"); //{ _id: mongoose.Types.ObjectId(userId) }
+    const { userId, doctorId, date, time } = req.body;
+
+    // const existingAppointments = await User.find({ doctorId, date, time });
+    const user = await User.find({ userId, doctorId, date, time }); //{ _id: mongoose.Types.ObjectId(userId) }
     if (!user) {
       return res
         .status(404)
@@ -73,7 +76,6 @@ router.get("/get-user-appointments", authMiddleware, async (req, res) => {
         data: {
           name: user.name,
           email: user.email,
-          bookings: user.bookings,
         },
       });
     }

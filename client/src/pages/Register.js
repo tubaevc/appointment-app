@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
-
+import { useState } from "react";
 function Register() {
   const navigate = useNavigate();
   const onFinish = async (values) => {
@@ -21,7 +21,15 @@ function Register() {
     } catch (error) {
       toast.error("something went wrong");
     }
+    if (!validateEmail(values.email)) {
+      setEmailError("Geçersiz email adresi");
+    } else {
+      setEmailError("");
+    }
   };
+  const [form] = Form.useForm();
+  const [emailError, setEmailError] = useState("");
+
   return (
     <div className="auth flex justify-center text-center items-center p-2 h-screen">
       <Toaster position="top-center" reverseOrder={false} />
@@ -32,9 +40,31 @@ function Register() {
           <Form.Item label="Name" name="name">
             <Input placeholder="Name" />
           </Form.Item>
-          <Form.Item label="Email" name="email">
+          <Form.Item
+            rules={[
+              {
+                required: true,
+                message: "Lütfen e-posta adresinizi girin!",
+              },
+              {
+                type: "email",
+                message: "Geçerli bir e-posta adresi girin!",
+              },
+              {
+                validator: (_, value) =>
+                  validateEmail(value)
+                    ? Promise.resolve()
+                    : Promise.reject(
+                        new Error("Geçerli bir e-posta adresi girin!")
+                      ),
+              },
+            ]}
+            label="Email"
+            name="email"
+          >
             <Input placeholder="Email" />
           </Form.Item>
+          {emailError && <div style={{ color: "red" }}>{emailError}</div>}
           <Form.Item label="Password" name="password">
             <Input placeholder="Password" />
           </Form.Item>
@@ -52,5 +82,8 @@ function Register() {
     </div>
   );
 }
-
+function validateEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
 export default Register;

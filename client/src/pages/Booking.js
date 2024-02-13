@@ -7,11 +7,10 @@ function Booking() {
   const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [unavailableTimes, setUnavailableTimes] = useState([]);
   const [formData, setFormData] = useState({
     departmentId: "",
     doctorId: "",
-    // userId: "",
+    //userId: "",
     date: "",
     time: "",
   });
